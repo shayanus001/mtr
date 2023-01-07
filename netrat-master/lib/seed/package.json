@@ -1,0 +1,34 @@
+{
+  "name": "netrat-seed",
+  "version": "1.0.0",
+  "description": "Seed template for the noderat RAT generator",
+  "main": "shell.template",
+  "scripts": {
+    "build": "pkg index.js --out-path build"
+  },
+  "engines": {
+    "node": ">=10.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roccomuso/netrat.git"
+  },
+  "keywords": [
+    "rat",
+    "node",
+    "javascript",
+    "js",
+    "rat",
+    "backdoor"
+  ],
+  "author": "Rocco Musolino (roccomuso)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/roccomuso/netrat/issues"
+  },
+  "homepage": "https://github.com/roccomuso/netrat#readme",
+  "dependencies": {
+    "cash": "^0.8.0",
+    "netcat": "^1.5.0"
+  }
+}

